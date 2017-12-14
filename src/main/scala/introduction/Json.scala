@@ -28,3 +28,17 @@ object JsonWriterInstances {
         ))
     }
 }
+
+//Interface Object Example
+object Json {
+  def toJson[A](value: A)(implicit w: JsonWriter[A]): Json =
+    w.write(value)
+}
+
+//Interface Syntax Example
+object JsonSyntax {
+  implicit class JsonWriterOps[A](value: A) {
+    def toJson(implicit w: JsonWriter[A]): Json =
+      w.write(value)
+  }
+}
