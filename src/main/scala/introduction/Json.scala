@@ -27,15 +27,24 @@ object JsonWriterInstances {
           "email" -> JsString(value.email)
         ))
     }
+
+  implicit def optionWriter[A](implicit writer: JsonWriter[A]): JsonWriter[Option[A]] =
+    new JsonWriter[Option[A]] {
+      def write(option: Option[A]): Json =
+        option match {
+          case Some(aValue) => writer.write(aValue)
+          case None =>         JsNull
+        }
+    }
 }
 
-//Interface Object Example
+//Type class interface object
 object Json {
   def toJson[A](value: A)(implicit w: JsonWriter[A]): Json =
     w.write(value)
 }
 
-//Interface Syntax Example
+//Type class interface syntax
 object JsonSyntax {
   implicit class JsonWriterOps[A](value: A) {
     def toJson(implicit w: JsonWriter[A]): Json =
