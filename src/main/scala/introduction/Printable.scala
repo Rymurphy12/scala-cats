@@ -1,11 +1,10 @@
 package introduction
 
-//1.3 Exercise 1
+//Exercise A.1
 sealed trait Printable[A]{
   def format(value: A): String
 }
 
-//1.3 Exercise 2
 object PrintableInstances{
   implicit val stringPrintable: Printable[String] =
     new Printable[String] {
@@ -30,7 +29,7 @@ object PrintableInstances{
     }
 }
 
-//1.3 Exercise 3
+//Exercise A.2
 object Printable{
   def format[A](value: A)(implicit p: Printable[A]): String =
     p.format(value)
@@ -41,7 +40,7 @@ object Printable{
 
 final case class Cat(name: String, age: Int, color: String)
 
-//1.3 Exercise 4
+//Exercise A.3
 object PrintableSyntax {
   implicit class PrintableOps[A](value: A) {
     def format(implicit p: Printable[A]): String =

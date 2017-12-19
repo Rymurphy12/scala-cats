@@ -57,3 +57,7 @@ project/plugins/project/
 # IntelliJ Specific #
 #####################
 .idea/
+
+# Main.scala #
+##############
+Main.scala
