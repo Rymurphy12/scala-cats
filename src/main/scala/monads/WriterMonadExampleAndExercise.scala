@@ -27,4 +27,33 @@ object WriterMonadExampleAndExercise {
 
   val writer2 = writer1.mapWritten(_.map(_.toUpperCase))
 
+  val writer3 = writer1.bimap(
+    log => log.map(_.toUpperCase),
+    res => res * 100)
+
+  val writer4 = writer1.mapBoth { (log, res) =>
+    val log2 = log.map(_ + "!")
+    val res2 = res * 1000
+    (log2, res2)
+  }
+
+  val writer5 = writer1.reset
+
+  val writer6 = writer1.swap
+
+  //Exercise D.5
+  def slowly[A](body: => A) =
+    try body finally Thread.sleep(100)
+  
+  def factorial(n: Int): Logged[Int] = {
+    for {
+      ans <- if (n == 0)
+               1.pure[Logged]
+             else
+               slowly(factorial(n-1).map(_ * n))
+      log <- Vector(s"fact $n $ans").tell
+    }yield ans
+  }
+
+
 }
